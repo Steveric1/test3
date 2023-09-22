@@ -9,26 +9,26 @@
  * the beginning of the linked list pointed to by headptr.
  *
  * Return: A pointer to the newly created node, or NULL on failure.
-*/
+ */
 directory_t *add_at_beg(directory_t **headptr, const char *path)
 {
-    directory_t *new_node;
+	directory_t *new_node;
 
-    if (headptr == NULL)
-        return (NULL);
-    new_node = malloc(sizeof(directory_t));
-    if (new_node == NULL)
-        return (NULL);
-    new_node->path = _strdup(path);
-    if (new_node->path == NULL)
-    {
-        free_all(1, new_node);
-        return (NULL);
-    }
-    new_node->link = *headptr;
+	if (headptr == NULL)
+		return (NULL);
+	new_node = malloc(sizeof(directory_t));
+	if (new_node == NULL)
+		return (NULL);
+	new_node->path = _strdup(path);
+	if (new_node->path == NULL)
+	{
+		free_all(1, new_node);
+		return (NULL);
+	}
+	new_node->link = *headptr;
 
-    *headptr = new_node;
-    return (new_node);
+	*headptr = new_node;
+	return (new_node);
 }
 
 /**
@@ -39,27 +39,27 @@ directory_t *add_at_beg(directory_t **headptr, const char *path)
  */
 directory_t *dir_at_the_end(directory_t **dir_head, const char *path)
 {
-    directory_t *new_node, *current;
+	directory_t *new_node, *current;
 
-    if (!dir_head)
-        return (NULL);
-    new_node = malloc(sizeof(directory_t));
-    if (new_node == NULL)
-       return (NULL);
+	if (!dir_head)
+		return (NULL);
+	new_node = malloc(sizeof(directory_t));
+	if (new_node == NULL)
+		return (NULL);
 
-    new_node->path = _strdup(path);
-    new_node->link = NULL;
+	new_node->path = _strdup(path);
+	new_node->link = NULL;
 
-    if (!*dir_head)
-       *dir_head = new_node;
-    else
-    {
-        current = *dir_head;
-        while (current->link != NULL)
-            current = current->link;
-        current->link = new_node;
-    }
-    return (new_node);
+	if (!*dir_head)
+		*dir_head = new_node;
+	else
+	{
+		current = *dir_head;
+		while (current->link != NULL)
+			current = current->link;
+		current->link = new_node;
+	}
+	return (new_node);
 }
 
 /**
@@ -72,25 +72,28 @@ directory_t *dir_at_the_end(directory_t **dir_head, const char *path)
  */
 void free_dir(directory_t **head_ptr)
 {
-    directory_t *next_node;
+	directory_t *next_node;
 
-    while (*head_ptr != NULL)
-    {
-        next_node = *head_ptr;
-        *head_ptr = next_node->link;
-        free_all(2, next_node->path, next_node);
-    }
+	while (*head_ptr != NULL)
+	{
+		next_node = *head_ptr;
+		*head_ptr = next_node->link;
+		free_all(2, next_node->path, next_node);
+	}
 }
 
 /**
- * path_to_list - Convert a path string into a linked list of directories.
- * @tail_ptr: A pointer to store the tail of the linked list (optional).
- * @help: A path_helper structure containing path and delimiter information.
- * Returns: A pointer to the head of the linked list on success, or NULL on failure.
+ * path_to_list - Convert a path to a linked list of directories.
+ *
+ * @tail_ptr: A pointer to the tail of the linked list.
+ * @path: The input path string.
+ * @delim: The delimiter character for splitting directories.
+ * Return: A pointer to the last directory node in the linked list,
+ * or NULL on failure.
  */
 directory_t *path_to_list(directory_t **tail_ptr, const char *path, char delim)
 {
-    directory_t *tail;
+	directory_t *tail;
 	ssize_t len = _strchr(path, delim);
 
 	if (len == -1)
@@ -113,18 +116,19 @@ directory_t *path_to_list(directory_t **tail_ptr, const char *path, char delim)
 }
 
 /**
- * path_wrapper - Wrapper function to create a directory list from a path string.
- * @help: A path_helper structure containing path and delimiter information.
- * Returns: A pointer to the head of the linked list on success, or NULL on failure.
+ * path_wrapper - Convert a path to a directory linked list.
+ * @path: The input path string containing directories separated
+ * @delim: The delimiter character used to separate directories
+ * Return: A pointer to the head of the linked list or NULL on failure.
  */
 directory_t *path_wrapper(const char *path, char delim)
 {
-    directory_t *head = NULL;
+	directory_t *head = NULL;
 
-    if (!path)
-        return (NULL);
-    
-    if (!path_to_list(&head, path, delim))
-        free_dir(&head);
-    return (head);
+	if (!path)
+		return (NULL);
+
+	if (!path_to_list(&head, path, delim))
+		free_dir(&head);
+	return (head);
 }
