@@ -33,10 +33,10 @@ void perrorl(const char *msg, ...)
 void handle_error(const char *av, size_t linenum, const char *error_m, ...)
 {
 	error_t err;
+	va_list arg;
 
 	err.linenum_error = convert_str(linenum);
 	err.str_ret = NULL;
-	va_list arg;
 
 	if (av)
 		write(STDERR_FILENO, av, _strlen(av));
