@@ -5,5 +5,4 @@
 #include "shellhelpertype.h"
 
 typedef shell_dict_t alias_t;
-
-#endif /*_SHELLALIAS_H_*/
+#endif /* _SHELLALIAS_H_ */
