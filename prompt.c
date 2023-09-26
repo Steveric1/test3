@@ -21,7 +21,13 @@ int command_processor(store_info_t *shell_info)
             del_cmd_at_pos(&(shell_info->cmd), count);
             continue;
         }
-
+        process_aliases(shell_info->aliases, &(command->tokens));
+        if (!command->tokens)
+        {
+            command = command->link;
+            del_cmd_at_pos(&(shell_info->cmd), count);
+            continue;
+        }
         tokenize = command->tokens;
         for (token = *tokenize; token; token = *(++tokenize))
         {

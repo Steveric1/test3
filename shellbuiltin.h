@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "shellalias.h"
 #include "shellenv.h"
 #include "handlerror.h"
 #include "shell.h"
@@ -38,6 +39,7 @@ int _exec(store_info_t *info);
 int _exit_s(store_info_t *info);
 int _setenv(store_info_t *info);
 int _unsetenv(store_info_t *info);
+int _alias(store_info_t *info);
 
 /**
  * struct atoi - A custom data structure for parsing integers
